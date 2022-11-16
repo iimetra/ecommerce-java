@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id("org.springframework.boot") version "2.7.4"
+    id("io.spring.dependency-management") version "1.0.14.RELEASE"
+}
+
+group 'com.iimetra'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    junitVersion = '5.9.0'
+    openApiVersion = '1.6.11'
+    postgresqlVersion = '42.5.0'
+    mockitoVersion = '4.8.0'
+    assertJVersion = '3.23.1'
+    lombokVersion = '1.18.24'
+    mapStructVersion = '1.4.2.Final'
+    embeddedPostgresVersion = '2.0.0'
+    embeddedDBTestVersion = '2.1.2'
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+    //Using Springdoc instead of springfox
+    implementation("org.springdoc:springdoc-openapi-ui:${openApiVersion}")
+
+    //Postgres
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.postgresql:postgresql:${postgresqlVersion}")
+
+    //JunitMockito
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    testImplementation("org.junit.platform:junit-platform-runner:1.9.0")
+    testImplementation("org.mockito:mockito-inline:${mockitoVersion}")
+    testImplementation("org.assertj:assertj-core:${assertJVersion}")
+
+    //lombok
+
+    compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
+    testCompileOnly("org.projectlombok:lombok:${lombokVersion}")
+    testAnnotationProcessor("org.projectlombok:lombok:${lombokVersion}")
+
+    //mapstruct
+    implementation("org.mapstruct:mapstruct:${mapStructVersion}")
+    annotationProcessor("org.mapstruct:mapstruct-processor:${mapStructVersion}")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    //EmbeddedDB for tests
+    testImplementation("io.zonky.test:embedded-postgres:${embeddedPostgresVersion}")
+    testImplementation("io.zonky.test:embedded-database-spring-test:${embeddedDBTestVersion}")
+}
+
+test {
+    useJUnitPlatform()
+}
